@@ -21,6 +21,7 @@
                 @csrf
                 <button class="bg-red-500 text-white px-4 py-2 rounded">Log out</button>
             </form>
+            <a href="{{route('order.index')}}" class="bg-blue-500 text-white px-4 py-2 rounded">Order history</a>
             <a href="{{route('cart.index')}}" class="text-lg">Cart (<span id="cart-count">0</span>)</a>
         </nav>
     @endauth
@@ -29,6 +30,7 @@
     @guest()
         <nav class="flex space-x-4 items-center">
             <a href="{{route('cart.index')}}" class="text-lg">Cart (<span id="cart-count">0</span>)</a>
+
             <!-- Login and Register Buttons -->
             <a href="{{route('login')}}" class="bg-blue-500 text-white px-4 py-2 rounded">Login</a>
             <a href="{{route('register')}}" class="bg-green-500 text-white px-4 py-2 rounded">Register</a>
@@ -53,13 +55,13 @@
     <div id="product-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @foreach($products as $product)
             <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-                <img src="https://via.placeholder.com/300" alt="Product Image" class="w-full h-48 object-cover">
+                <img src="{{ asset($product->image) }}" alt="{{ $product->name }}">
                 <div class="p-4">
-                    <h3 class="text-lg font-bold mb-1">{{$product->name}}</h3>
-                    <p class="text-sm text-gray-500 mb-2">Type: {{$product->type}}</p>
-                    <p class="text-gray-700 mb-4">Description: {{$product->description}}</p>
+                    <h3 class="text-lg font-bold mb-1">{{ $product->name }}</h3>
+                    <p class="text-sm text-gray-500 mb-2">Type: {{ $product->type }}</p>
+                    <p class="text-gray-700 mb-4">Description: {{ $product->description }}</p>
                     <div class="flex justify-between items-center">
-                        <span class="text-xl font-semibold text-gray-900">${{$product->price}}</span>
+                        <span class="text-xl font-semibold text-gray-900">${{ $product->price }}</span>
                         <form action="{{ route('cart.add') }}" method="POST">
                             @csrf
                             <input type="hidden" name="id" value="{{ $product->id }}">
@@ -68,13 +70,16 @@
                             <input type="number" name="quantity" value="1">
                             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Add to Cart</button>
                         </form>
-
                     </div>
                 </div>
             </div>
+
         @endforeach
     </div>
 </main>
+<div class="mt-4 flex justify-center">
+    {{ $products->links('pagination::tailwind') }}
+</div>
 
 </body>
 </html>

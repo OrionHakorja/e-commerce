@@ -15,6 +15,7 @@
             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Search</button>
         </form>
         <a href="{{route('admin.create')}}" class="bg-blue-500 text-white px-4 py-2 rounded">Add product</a>
+        <a href="{{route('admin.orders')}}" class="bg-blue-500 text-white px-4 py-2 rounded">Order history</a>
         <form method="POST" action="{{route('logout')}}">
             @csrf
             <button class="bg-red-500 text-white px-4 py-2 rounded">Log out</button>
@@ -39,7 +40,7 @@
     <div id="product-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @foreach($products as $product)
             <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-                <img src="https://via.placeholder.com/300" alt="Product Image" class="w-full h-48 object-cover">
+                <img src="{{ asset($product->image) }}" alt="{{ $product->name }}">
                 <div class="p-4">
                     <h3 class="text-lg font-bold mb-1">{{$product->name}}</h3>
                     <p class="text-sm text-gray-500 mb-2">Type: {{$product->type}}</p>
@@ -62,6 +63,8 @@
         @endforeach
     </div>
 </main>
-
+<div class="mt-4 flex justify-center">
+    {{ $products->links('pagination::tailwind') }}
+</div>
 </body>
 </html>

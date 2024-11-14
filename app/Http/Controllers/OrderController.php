@@ -15,13 +15,13 @@ class OrderController extends Controller
 
     public function itemsprocess(Request $request)
     {
-
         $request->validate([
-        'name' => 'required',
-        'address' => 'required',
-        'email' => 'required',
-        'payment_method' => 'required'
-    ]);
+            'name' => 'required',
+            'address' => 'required',
+            'email' => 'required',
+            'payment_method' => 'required'
+        ]);
+
         $cart = session()->get('cart');
         if (!$cart || count($cart) == 0) {
             return redirect()->back()->with('error', 'Your cart is empty.');
@@ -33,15 +33,17 @@ class OrderController extends Controller
             $totalPrice += $details['price'] * $details['quantity'];
         }
 
+        // Create order
         $order = Order::create([
-        'name' => $request->name,
-        'address' => $request->address,
-        'email' => $request->email,
-        'payment_method' => $request->payment_method,
-        'total_price' => $totalPrice
+            'name' => $request->name,
+            'address' => $request->address,
+            'email' => $request->email,
+            'payment_method' => $request->payment_method,
+            'total_price' => $totalPrice,
+            'user_id' => auth()->user()->id
         ]);
 
-
+        // Save each item in the order
         foreach ($cart as $id => $details) {
             OrderItem::create([
                 'order_id' => $order->id,
@@ -50,18 +52,19 @@ class OrderController extends Controller
                 'quantity' => $details['quantity'],
                 'total' => $details['price'] * $details['quantity'],
             ]);
-
-            session()->forget('cart');
-            return redirect()->route('cart.index')->with('success', 'Order items successfully processed!');
-
         }
 
-//        return redirect()->route('order.shipping');
+        // Clear cart after processing
+        session()->forget('cart');
 
+        return redirect()->route('cart.index')->with('success', 'Order items successfully processed!');
+    }
 
-
-
-
-        return redirect()->route('dashboard');
+    public function show()
+    {
+        $orders = Order::where('user_id', auth()->id())->get();
+        return view('order.index')->with([
+            'orders' => $orders
+        ]);
     }
 }

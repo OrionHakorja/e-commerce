@@ -8,7 +8,7 @@
 </head>
 <body class="bg-gray-100">
 <header class="bg-white shadow p-4 flex justify-between items-center">
-    <h1 class="text-2xl font-bold">E-Commerce Store</h1>
+    <h1 class="text-2xl font-bold">E-Commerce Store(Role:Admin)</h1>
     <nav class="flex space-x-4 items-center">
         <a href="{{ route('admin.dashboard') }}" class="bg-blue-500 text-white px-4 py-2 rounded">Dashboard</a>
         <form method="POST" action="{{ route('logout') }}">
@@ -26,6 +26,11 @@
             <div class="mb-4">
                 <label for="name" class="block text-gray-700 font-bold mb-2">Product Name</label>
                 <input type="text" id="name" name="name" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter product name" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="image" class="block text-gray-700 font-bold mb-2">Product Image</label>
+                <input type="file" id="image" name="image" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter product image" required>
             </div>
 
             <div class="mb-4">

@@ -19,30 +19,35 @@
 </header>
 
 <main class="p-8">
-    <h2 class="text-xl font-semibold mb-4">Add a product</h2>
+    <h2 class="text-xl font-semibold mb-4">Edit product</h2>
     <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg">
         <form method="POST" action="{{route('admin.update', $product->id)}}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="mb-4">
                 <label for="name" class="block text-gray-700 font-bold mb-2">Product Name</label>
-                <input type="text" id="name" name="name" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter product name" required value="{{$product->name}}">
+                <input type="text" id="name" name="name" class="w-full p-2 border border-gray-300 rounded" placeholder="Edit product name" required value="{{$product->name}}">
+            </div>
+
+            <div class="mb-4">
+                <label for="image" class="block text-gray-700 font-bold mb-2">Product Image</label>
+                <input type="file" id="image" name="image" class="w-full p-2 border border-gray-300 rounded" placeholder="Edit product image">
             </div>
 
             <div class="mb-4">
                 <label for="price" class="block text-gray-700 font-bold mb-2">Price</label>
-                <input type="number" id="price" name="price" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter price" required value="{{$product->price}}">
+                <input type="number" id="price" name="price" class="w-full p-2 border border-gray-300 rounded" placeholder="Edit price" required value="{{$product->price}}">
             </div>
 
             <div class="mb-4">
                 <label for="description" class="block text-gray-700 font-bold mb-2">Description</label>
-                <textarea id="description" name="description" rows="4" class="w-full p-2 border border-gray-300 rounded" placeholder="" required>{{$product->description}}</textarea>
+                <textarea id="description" name="description" rows="4" class="w-full p-2 border border-gray-300 rounded" placeholder="Edit product description" required>{{$product->description}}</textarea>
             </div>
 
 
             <div class="mb-4">
                 <label for="type" class="block text-gray-700 font-bold mb-2">Product Type</label>
-                <input type="text" id="stock" name="type" class="w-full p-2 border border-gray-300 rounded" placeholder="" required value="{{$product->type}}">
+                <input type="text" id="stock" name="type" class="w-full p-2 border border-gray-300 rounded" placeholder="Edit product type" required value="{{$product->type}}">
             </div>
 
             <div class="flex justify-end">

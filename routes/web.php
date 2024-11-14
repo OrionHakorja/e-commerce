@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function () {
-    $products = Product::all();
+    $products = Product::paginate(6);
     return view('dashboard')->with([
         'products' => $products
     ]);
@@ -18,17 +18,6 @@ Route::get('/', function () {
 
 Route::get('/searchh', [UserController::class, 'search'])->name('products.search');
 
-
-//Route::get('admin.dashboard', function ()
-//{
-//    return view('admin.dashboard');
-//})->middleware('admin')->name('admin.dashboard');
-
-//Route::get('/dashboard', function () {
-//    return view('dashboard');
-//})
-////    ->middleware(['auth', 'verified'])->name('dashboard')
-//;
 
 Route::middleware('admin')->group(function () {
   Route::get('admin.dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
@@ -38,6 +27,10 @@ Route::middleware('admin')->group(function () {
   Route::put('edit/product/{product}', [AdminController::class, 'update'])->name('admin.update');
   Route::delete('delete/product/{product}', [AdminController::class, 'destroy'])->name('admin.delete');
   Route::get('/search', [AdminController::class, 'search'])->name('admin.search');
+  Route::get('/all-orders', [AdminController::class, 'show'])->name('admin.orders');
+  Route::put('/update-status/{order}', [AdminController::class, 'updatestatus'])->name('admin.orders.status');
+  Route::delete('/delete/order/{order}', [AdminController::class, 'delete'])->name('order.delete');
+  Route::get('/search-orders', [AdminController::class, 'searchOrders'])->name('admin.orders.search');
 });
 
 Route::middleware('auth')->group(function () {
@@ -48,7 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
     Route::get('/cart/shipping', [OrderController::class, 'index'])->name('order.shipping');
     Route::post('/cart/shipping', [OrderController::class, 'itemsprocess'])->name('items.process');
-//    Route::post('cart', [OrderController::class, 'itemsprocess'])->name('items.process');
+    Route::get('/orders', [OrderController::class, 'show'])->name('order.index');
 });
 
 require __DIR__.'/auth.php';
